@@ -16,7 +16,7 @@ public class Program {
 		
 		LocationQuery test = new LocationQuery("South Ruislip",51.554714f,-0.402009f,allStations);
 		
-		System.out.println(test.nearestStations(8));
+		System.out.println(test.nearestStations(20));
 		
 	}
 

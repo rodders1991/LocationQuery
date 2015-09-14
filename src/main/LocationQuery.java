@@ -27,7 +27,7 @@ public class LocationQuery {
 		String[] resultArr = new String[size]; // To list he station Names
 		
 		double[] disArr = new double[size]; // To list the Distances
-		for (int i = 0; i < resultArr.length; i++) disArr[i] = Double.MAX_VALUE; // Set to Max Value, this will enable me to check
+		for (int i = 0; i < size; i++) disArr[i] = Double.MAX_VALUE; // Set to Max Value, this will enable me to check
 		
 		String result = "";
 		
@@ -39,14 +39,27 @@ public class LocationQuery {
 				
 				if(d < disArr[j]){
 					
+					double[] copy = new double [size];
+					String[] copyStr = new String[size];
+					
+					for (int k = j-1; k >= 0; k--) 
+						{
+						copy[k] = disArr[k];
+						copyStr[k] = resultArr[k];
+						}
+					
 					for (int j2 = j+1; j2 < size; j2++){
-						disArr[j2] = disArr[j2-1];
-						resultArr[j2] = resultArr[j2-1];
+						copy[j2] = disArr[j2-1];
+						copyStr[j2] = resultArr[j2-1];
 					}
 			
 					
-					disArr[j] = d;
-					resultArr[j] = sample.get(i).getName();
+					copy[j] = d;
+					copyStr[j] = sample.get(i).getName();
+					
+					disArr = copy;
+					resultArr = copyStr;
+					
 					break;
 					
 				}
@@ -72,11 +85,14 @@ public class LocationQuery {
 			d = R * c (where R is the radius of the Earth)
 		 */
 		
-		final int RADIUS = 6373000;
-		float dLng = lng1 - lng;
-		float dLat = lat1 - lat;
+		final int RADIUS = 6372800;
+		double dLng = Math.toRadians(lng1 - lng);
+		double dLat = Math.toRadians(lat1 - lat);
+		double newLat = Math.toRadians(lat);
+		double newLat1 = Math.toRadians(lat1);
 		
-		double a = Math.pow(Math.sin(dLat/2),2) + Math.cos(lat) * Math.cos(lat1) * Math.pow(Math.sin(dLng/2), 2);
+		
+		double a = Math.pow(Math.sin(dLat/2),2) + Math.cos(newLat) * Math.cos(newLat1) * Math.pow(Math.sin(dLng/2), 2);
 		double c = 2* Math.atan2(Math.sqrt(a),Math.sqrt(1 - a));
 		double d = RADIUS* c;
 		
