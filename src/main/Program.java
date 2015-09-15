@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Program {
 
@@ -13,8 +14,21 @@ public class Program {
 		// TODO Auto-generated method stub
 		
 		loadStations();
+		float[] locLatLng = new float[2];
+		Scanner in = new Scanner(System.in);
 		
-		LocationQuery test = new LocationQuery("South Ruislip",51.554714f,-0.402009f,allStations);
+		do{
+			System.out.println("Enter a location");
+			String location = in.nextLine();
+			
+		LocationFinder loc = new LocationFinder(location, "AIzaSyA2OxtZG2jUkE3-2pb6R4rc-VcWn3x35LQ");
+		locLatLng = loc.latLng();
+		
+		if(locLatLng[0] == 999f) System.out.println("Error with the location");
+		
+		}while(locLatLng[0] == 999f);
+		//LocationQuery test = new LocationQuery("South Ruislip",51.554714f,-0.402009f,allStations);
+		LocationQuery test = new LocationQuery("South Ruislip",locLatLng[0],locLatLng[1],allStations);
 		
 		System.out.println(test.nearestStations(20));
 		
