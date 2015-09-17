@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Program {
 
-	public static ArrayList <Locations> allStations = new ArrayList<>();
+	public static ArrayList <Station> allStations = new ArrayList<>();
 	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
@@ -27,11 +27,14 @@ public class Program {
 		if(locLatLng[0] == 999f) System.out.println("Error with the location");
 		
 		}while(locLatLng[0] == 999f);
-		//LocationQuery test = new LocationQuery("South Ruislip",51.554714f,-0.402009f,allStations);
-		LocationQuery test = new LocationQuery("South Ruislip",locLatLng[0],locLatLng[1],allStations);
+				
+		Station place = new Station("South Ruislip", locLatLng[0],locLatLng[1],0);
 		
-		System.out.println(test.nearestStations(20));
+		Station nearestStation = place.nearestStation(allStations,7);
 		
+		System.out.println("The Nearest Station is " + nearestStation.getName() + " at zone " + nearestStation.getZone());
+		
+		in.close();
 	}
 
 	public static void loadStations() throws IOException
@@ -48,13 +51,16 @@ public class Program {
 			
 			String name = strObj[0];//.substring(1, (strObj[0].length() - 1));
 			
-			float lat = Float.parseFloat(strObj[1]);
-			float lng = Float.parseFloat(strObj[2]);
+			float zone = Float.parseFloat(strObj[1]);
+			float lat = Float.parseFloat(strObj[2]);
+			float lng = Float.parseFloat(strObj[3]);
 			
-			allStations.add(new Locations(name,lat,lng));
+			
+			allStations.add(new Station(name,lat,lng,zone));
 			
 			
 		}
+		input.close();
 		
 	}
 	
