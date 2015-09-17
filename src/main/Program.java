@@ -13,24 +13,18 @@ public class Program {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
-		loadStations();
-		float[] locLatLng = new float[2];
+		loadStations(); // Load stations from CSV file
 		Scanner in = new Scanner(System.in);
 		
-		do{
-			System.out.println("Enter a location");
-			String location = in.nextLine();
-			
-		LocationFinder loc = new LocationFinder(location, "AIzaSyA2OxtZG2jUkE3-2pb6R4rc-VcWn3x35LQ");
-		locLatLng = loc.latLng();
+		Location loc = Location.createLocation(in); // Get a starter Location
+		System.out.println("Enter the zone you wish to travel too:(If you just want the nearest type 0)");
 		
-		if(locLatLng[0] == 999f) System.out.println("Error with the location");
+		float zone = Float.parseFloat(in.nextLine()); 
 		
-		}while(locLatLng[0] == 999f);
-				
-		Station place = new Station("South Ruislip", locLatLng[0],locLatLng[1],0);
+		Station nearestStation;
 		
-		Station nearestStation = place.nearestStation(allStations,7);
+		if(zone == 0) nearestStation = loc.nearestStation(allStations);
+		else nearestStation = loc.nearestStation(allStations,zone);
 		
 		System.out.println("The Nearest Station is " + nearestStation.getName() + " at zone " + nearestStation.getZone());
 		
