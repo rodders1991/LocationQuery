@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Location {
@@ -55,9 +56,13 @@ public class Location {
 		{
 			this.isSet = false;
 		}
+		catch (JSONException e)
+		{
+			this.isSet = false;
+		}
 	}
 	
-	public static float[] latLng(String name, String APIKEY) throws IOException
+	public static float[] latLng(String name, String APIKEY) throws IOException, JSONException
 	{
 		
 		float[] result = new float[2];
@@ -193,6 +198,50 @@ public class Location {
 				return result;
 			}
 		}
+		
+		
+		public Station[] nearestStations(ArrayList<Station> large, int sample)
+		{
+		
+			Station[] small = new Station[sample];
+			double[] values = new double[sample];
+			
+			for (int i = 0; i < large.size(); i++) {
+				
+				double d = MapUtil.getDistance(lat, lng, large.get(i).getLat(), large.get(i).getLng());
+				
+				for (int j = 0; j < sample; j++) {
+					
+					if(small[j] == null)
+					{
+						values[j] = d;
+						small[j] = large.get(i);
+						break;
+						
+					}
+					else if(d < values[j])
+					{
+						Station[] copySmall = small.clone();
+						double[] copyValues = values.clone();
+						
+						for (int k = j+1; k < sample; k++){
+							small[k] = copySmall[k-1];
+							values[k] = copyValues[k-1];
+						}
+						
+						values[j] = d;
+						small[j] = large.get(i);
+						break;
+						
+					}
+					
+				}
+			}
+			
+			return small;
+			
+		}
+		
 		
 		
 		public static Location createLocation(Scanner in)

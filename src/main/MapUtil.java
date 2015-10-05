@@ -25,4 +25,12 @@ public class MapUtil {
 		
 		return d;
 	}
+	
+	public static double[] bikeTime(Location start, Location end)
+	{
+		double result[] = new double[5];
+		
+		
+		return result;
+	}
 }

@@ -21,12 +21,18 @@ public class Program {
 		
 		float zone = Float.parseFloat(in.nextLine()); 
 		
-		Station nearestStation;
+		Station[] nearestStation;
 		
-		if(zone == 0) nearestStation = loc.nearestStation(allStations);
-		else nearestStation = loc.nearestStation(allStations,zone);
+		//if(zone == 0) nearestStation = loc.nearestStation(allStations);
+		//else nearestStation = loc.nearestStation(allStations,zone);
 		
-		System.out.println("The Nearest Station is " + nearestStation.getName() + " at zone " + nearestStation.getZone());
+		nearestStation = loc.nearestStations(allStations, 30);
+		
+		for (int i = 0; i < nearestStation.length; i++) {
+			
+			System.out.println("The Nearest Station is " + nearestStation[i].getName() + " at zone " + nearestStation[i].getZone());
+		}
+		
 		
 		in.close();
 	}
@@ -43,7 +49,7 @@ public class Program {
 			
 			String[] strObj = line.split(",");
 			
-			String name = strObj[0];//.substring(1, (strObj[0].length() - 1));
+			String name = strObj[0];
 			
 			float zone = Float.parseFloat(strObj[1]);
 			float lat = Float.parseFloat(strObj[2]);
