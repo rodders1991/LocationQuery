@@ -59,7 +59,7 @@ public class Location {
 		}
 	}
 	
-	public static float[] latLng(String name, String APIKEY) throws IOException, JSONException
+	private float[] latLng(String name, String APIKEY) throws IOException, JSONException
 	{
 		
 		float[] result = new float[2];
@@ -69,7 +69,7 @@ public class Location {
 		URL url = null;
 		try
 		{
-		url = new URL("https://maps.googleapis.com/maps/api/geocode/json?address="+inName+"&key="+APIKEY);
+		url = new URL("https://maps.googleapis.com/maps/api/geocode/json?address="+inName+"&components=country:GB&key="+APIKEY);
 		
 		} catch(MalformedURLException e)
 		{
@@ -117,7 +117,7 @@ public class Location {
 		
 	}
 	
-	 private static String readAll(Reader rd) throws IOException {
+	 private String readAll(Reader rd) throws IOException {
 		    StringBuilder sb = new StringBuilder();
 		    int cp;
 		    while ((cp = rd.read()) != -1) {
