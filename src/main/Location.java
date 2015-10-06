@@ -22,9 +22,6 @@ public class Location {
 	private float lng;
 	private boolean isSet;
 	
-	public String getAddress() {
-		return address;
-	}
 	public float getLat() {
 		return lat;
 	}

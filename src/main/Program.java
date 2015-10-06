@@ -11,7 +11,6 @@ public class Program {
 	public static ArrayList <Station> allStations = new ArrayList<>();
 	
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
 		
 		loadStations(); // Load stations from CSV file
 		Scanner in = new Scanner(System.in);
