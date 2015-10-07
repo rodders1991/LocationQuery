@@ -9,7 +9,8 @@ public class Program {
 	
 	public static void main(String[] args) throws IOException {
 		
-		LocationQuery test = new LocationQuery("HA4 6RZ","Liverpool Lime Street",30);
+		RouteQuery test = new RouteQuery("SW3 4AF","SW1Y 4RP");
+		
 		
 		test.showInfo();
 	}

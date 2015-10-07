@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +26,10 @@ public class Location {
 	}
 	public float getLng() {
 		return lng;
+	}
+	public String getAddress()
+	{
+		return address;
 	}
 	public boolean isSet() {
 		return isSet;
@@ -240,23 +243,47 @@ public class Location {
 		}
 		
 		
-		
-		public static Location createLocation(Scanner in)
+		public Station[] nearestStations(ArrayList<Station> large, int sample, float aZone)
 		{
-			// Loop to get a valid Location
-			Location loc;
-			do{
-				System.out.println("Enter a location");
-				String location = in.nextLine();
-				
-			loc = new Location(location);
 		
+			Station[] small = new Station[sample];
+			double[] values = new double[sample];
 			
-			if(!loc.isSet()) System.out.println("Error with the location");
+			for (int i = 0; i < large.size(); i++) {
+				
+				double d = MapUtil.getDistance(lat, lng, large.get(i).getLat(), large.get(i).getLng());
+				
+				for (int j = 0; j < sample; j++) {
+					
+					if(small[j] == null && large.get(i).getZone() == aZone)
+					{
+						values[j] = d;
+						small[j] = large.get(i);
+						break;
+						
+					}
+					else if(d < values[j] && large.get(i).getZone() == aZone)
+					{
+						Station[] copySmall = small.clone();
+						double[] copyValues = values.clone();
+						
+						for (int k = j+1; k < sample; k++){
+							small[k] = copySmall[k-1];
+							values[k] = copyValues[k-1];
+						}
+						
+						values[j] = d;
+						small[j] = large.get(i);
+						break;
+						
+					}
+					
+				}
+			}
 			
-			}while(!loc.isSet());
+			return small;
 			
-			return loc;
 		}
+		
 	
 }
