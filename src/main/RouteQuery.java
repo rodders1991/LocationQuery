@@ -24,6 +24,23 @@ public class RouteQuery {
 	
 	private final String APIKEY = "AIzaSyA2OxtZG2jUkE3-2pb6R4rc-VcWn3x35LQ";
 	
+	
+	public int getQuickestTransit() {
+		return quickestTransit;
+	}
+
+	public int getQuickestBike() {
+		return quickestBike;
+	}
+
+	public boolean isBikeQuicker() {
+		return bikeQuicker;
+	}
+
+	public int getTimeQuicker() {
+		return Math.abs(timeQuicker);
+	}
+
 	public RouteQuery(String startName, String endName)
 	{
 		startLocation = new Location(startName);
