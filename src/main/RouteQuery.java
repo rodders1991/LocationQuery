@@ -15,10 +15,13 @@ import org.json.JSONObject;
 
 public class RouteQuery {
 
-	private Location startLocation; // Location has lat, lng, validLocation
-	private Location endLocation;
-	private int quickestTransit;
-	private int quickestBike;
+	private final Location startLocation; // Location has lat, lng, validLocation
+	private final Location endLocation;
+	private final int quickestTransit;
+	private final int quickestBike;
+	private final boolean bikeQuicker;
+	private final int timeQuicker;
+	
 	private final String APIKEY = "AIzaSyA2OxtZG2jUkE3-2pb6R4rc-VcWn3x35LQ";
 	
 	public RouteQuery(String startName, String endName)
@@ -26,17 +29,30 @@ public class RouteQuery {
 		startLocation = new Location(startName);
 		endLocation = new Location(endName);
 		
+		
+		
 		if(!validLocations(startLocation,endLocation))
 		{
 			if(!startLocation.isSet()) System.out.println(startName + " is not a valid Address");
 			
 			if(!endLocation.isSet()) System.out.println(endName + " is not a valid address");
 			
+		quickestTransit = 0;
+		quickestBike = 0;
+		bikeQuicker = false;
+		timeQuicker = 0;
+		
 		}
 		else
 		{
 			quickestTransit = findQuickestTransit();
 			quickestBike = findQuickestBike();
+			
+			timeQuicker = quickestTransit - quickestBike;
+			
+			if(timeQuicker >= 0) bikeQuicker = true;
+			else bikeQuicker = false;
+			
 		}
 	}
 	
@@ -77,15 +93,15 @@ public class RouteQuery {
 			System.out.printf("Quickest route by transit takes %d mins", quickestTransit);
 			System.out.printf("\nQuickest route by cycle takes %d mins\n", quickestBike);
 			
-			if(quickestTransit >= quickestBike)
+			if(bikeQuicker)
 			{
 				System.out.println("Congrats it is quicker to cycle to your location than public transport");
-				System.out.printf("It's %d mins Quicker!!!",(quickestTransit-quickestBike));
+				System.out.printf("It's %d mins Quicker!!!",timeQuicker);
 				
 			}else
 			{
 				System.out.println("Sorry it takes longer to travel by bike");
-				System.out.printf("But only by %d mins!!!", (quickestBike - quickestTransit));
+				System.out.printf("But only by %d mins!!!", Math.abs(timeQuicker));
 			}
 		}
 	}

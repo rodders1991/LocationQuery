@@ -9,7 +9,7 @@ public class Program {
 	
 	public static void main(String[] args) throws IOException {
 		
-		RouteQuery test = new RouteQuery("SW3 4AF","SW1Y 4RP");
+		RouteQuery test = new RouteQuery("SW4 4AF","HA4 6RZ");
 		
 		
 		test.showInfo();
